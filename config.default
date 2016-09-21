@@ -1,0 +1,14 @@
+#Config for the birthday script
+[mail]
+
+from = ""
+
+subject = ""
+
+#Body of the mail, RECEPIENT and BIRTHDAYKID get replaced
+text = ""
+
+[mailserver]
+address = ""
+user = ""
+password = ""
