@@ -1,4 +1,4 @@
-#Birthdayscript 
+# Birthdayscript 
 
 Um das Skript zu starten muss die config.default in config umbenannt werden.
 
