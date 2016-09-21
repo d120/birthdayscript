@@ -15,15 +15,16 @@ def mail(addr, person):
     s = smtplib.SMTP(config['mailserver']['address'], 587)
     s.starttls()
     s.login(config['mailserver']['user'], config['mailserver']['password'])
+    text = text.replace('BIRTHDAYKID', person)
     for address in addr:
-        text = text.replace('RECEPIENT', address[0])
-        text = text.replace('BIRTHDAYKID', person)
-        msg = MIMEText(text)
+        tmp = text.replace('RECEPIENT', address[0])
+        msg = MIMEText(tmp)
         msg['Subject'] = config['mail']['subject']
         msg['From'] = config['mail']['from']
         msg['Date'] = formatdate()
         msg['To'] = address[1]
-        s.send_message(msg)
+        print(msg)
+        #s.send_message(msg)
     s.quit()
 
 def main():
