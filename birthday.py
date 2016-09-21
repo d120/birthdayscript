@@ -23,8 +23,7 @@ def mail(addr, person):
         msg['From'] = config['mail']['from']
         msg['Date'] = formatdate()
         msg['To'] = address[1]
-        print(msg)
-        #s.send_message(msg)
+        s.send_message(msg)
     s.quit()
 
 def main():
