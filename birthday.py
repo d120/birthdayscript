@@ -17,7 +17,7 @@ def mail(addr, person):
     s.login(config['mailserver']['user'], config['mailserver']['password'])
     text = text.replace('BIRTHDAYKID', person)
     for address in addr:
-        tmp = text.replace('RECEPIENT', address[0])
+        tmp = text.replace('RECIPIENT', address[0])
         msg = MIMEText(tmp)
         msg['Subject'] = config['mail']['subject']
         msg['From'] = config['mail']['from']
