@@ -2,4 +2,6 @@
 
 !birthday.py
 !.gitignore
+!birthday.example
 !default.conf
+!README.md
