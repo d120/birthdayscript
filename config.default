@@ -4,6 +4,7 @@
 from =
 
 subject = 
+template_file = mail_template.txt
 
 [mailserver]
 address = 

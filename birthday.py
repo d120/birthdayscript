@@ -29,7 +29,7 @@ def init_ldap(config):
 
 def mail(addr, person, config, dry_run):
     text = ""
-    with open('birthdaytext', 'r') as f:
+    with open(config['mail']['template_file'], 'r') as f:
         text = f.read()
     s = smtplib.SMTP(config['mailserver']['address'], 587)
     s.starttls()

@@ -1,6 +1,0 @@
-# Daten zum Geburtstags-Erinnerungs-Skript. Jeder, der in dieser Datei
-# aufgeführt ist, bekommt Erinnerungsmails für die Geburtstage der anderen
-# Personen in dieser Datei.
-
-# Format:
-# Name<tab>Datum ohne Jahr<tab>E-Mail-Adresse
