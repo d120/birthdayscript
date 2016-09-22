@@ -125,7 +125,7 @@ if __name__ == "__main__":
             elif style == 'html':
                 print('<table>')
                 for b in lst:
-                    print('<tr><td>%02d.%02d.</td><td>%20s %-30s</td><td>%-42s</td></tr>' % (b['birthday'].day, b['birthday'].month, b['name'], b['sn'], b['mail']))
+                    print('<tr><td>%02d.%02d.</td><td>%20s %-30s</td><td>in %d days</td></tr>' % (b['birthday'].day, b['birthday'].month, b['name'], b['sn'], b['delta']))
                 print('</table>')
 
 
