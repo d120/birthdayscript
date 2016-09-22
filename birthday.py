@@ -10,18 +10,18 @@ import json
 
 from ldap3 import Server, Connection, ALL_ATTRIBUTES, SEARCH_SCOPE_WHOLE_SUBTREE
 
-LDAP_URL = "ldap://10.162.32.201"
-LDAP_USER_SCOPE = 'ou=People,dc=fachschaft,dc=informatik,dc=tu-darmstadt,dc=de'
-
 config = ConfigParser()
 config.read('config')
 
+LDAP_URL = config['ldap']['url']
+LDAP_USER_SCOPE = config['ldap']['user_scope']
+
 def init_ldap(config):
     # Connect to LDAP
-    curUser = config['mailserver']['user'];
-    passwd = config['mailserver']['password'];
+    curUser = config['ldap']['bind_dn'];
+    passwd = config['ldap']['password'];
     s = Server(LDAP_URL, use_ssl=True, get_info=ALL_ATTRIBUTES)
-    c = Connection(s, user="cn=" + curUser + ",ou=Services,dc=fachschaft,dc=informatik,dc=tu-darmstadt,dc=de", password=passwd)
+    c = Connection(s, user=curUser, password=passwd)
     if not c.bind():
         print('Error in bind: ', c.result['description'])
         exit()

@@ -1,8 +1,6 @@
 #Config for the birthday script
 [mail]
-
 from =
-
 subject = 
 template_file = mail_template.txt
 
@@ -10,3 +8,11 @@ template_file = mail_template.txt
 address = 
 user = 
 password = 
+
+[ldap]
+bind_dn = cn=birthdayscript,ou=Services,dc=example,dc=org
+password = 
+url = ldap://10.20.30.40
+user_scope = ou=People,dc=example,dc=org
+
+
