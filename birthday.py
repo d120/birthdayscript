@@ -2,9 +2,10 @@ import re
 import smtplib
 from datetime import datetime, date
 from sys import argv, exit
-from email.mime.text import MIMEText
+from email.message import EmailMessage
 from configparser import ConfigParser
 from email.utils import formatdate
+from email.headerregistry import Address
 import getopt
 import json
 
@@ -37,11 +38,12 @@ def mail(addr, person, config, dry_run):
     text = text.replace('BIRTHDAYKID', person)
     for address in addr:
         tmp = text.replace('RECIPIENT', address[0])
-        msg = MIMEText(tmp)
+        msg = EmailMessage()
         msg['Subject'] = config['mail']['subject']
         msg['From'] = config['mail']['from']
         msg['Date'] = formatdate()
-        msg['To'] = address[1]
+        msg['To'] = Address(address[0] + " " + address[1] , addr_spec=address[2])
+        msg.set_content(tmp)
         if dry_run:
             print(msg)
         else:
@@ -77,7 +79,7 @@ def get_birthdays():
         attr = l['attributes']
         if not 'birthday' in attr or not 'birthmonth' in attr:
             continue
-        addresses.append([attr['givenName'][0],attr['mail'][0]])
+        addresses.append([attr['givenName'][0],attr['sn'][0],attr['mail'][0]])
         birthday = date(today.year, int(attr['birthmonth'][0]), int(attr['birthday'][0]))
         delta = today - birthday
         if delta.days == -1:
