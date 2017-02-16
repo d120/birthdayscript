@@ -13,7 +13,7 @@
 #   limitations under the License.
 import re
 import smtplib
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from sys import argv, exit
 from email.message import EmailMessage
 from configparser import ConfigParser
@@ -49,6 +49,9 @@ def mail(addr, person, config, dry_run):
     s.starttls()
     s.login(config['mailserver']['user'], config['mailserver']['password'])
     text = text.replace('BIRTHDAYKID', person)
+    tomorrow = date.today() + timedelta(days=1)
+    bdate = '%02d. %02d.' % (tomorrow.day, tomorrow.month)
+    text = text.replace('BIRTHDAY', bdate)
     for address in addr:
         tmp = text.replace('RECIPIENT', address[0])
         msg = EmailMessage()

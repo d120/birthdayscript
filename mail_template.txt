@@ -1,6 +1,6 @@
 Hi RECIPIENT,
 
-BIRTHDAYKID hat morgen Geburtstag.
+BIRTHDAYKID hat morgen (am BIRTHDAY) Geburtstag.
 
 LG
 pybirthday
