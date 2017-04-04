@@ -80,6 +80,7 @@ def get_all_birthdays():
         if delta.days < 0:
             birthday = date(today.year+1, int(attr['birthmonth'][0]), int(attr['birthday'][0]))
             delta = birthday - today
+        if not 'mail' in attr: attr['mail'] = ['']
         birthdays.append({ 'name': attr['givenName'][0], 'sn': attr['sn'][0], 'mail': attr['mail'][0],
              'birthday': birthday, 'delta': delta.days })
     birthdays.sort(key=lambda info: info['delta'])
@@ -95,7 +96,8 @@ def get_birthdays():
         attr = l['attributes']
         if not 'birthday' in attr or not 'birthmonth' in attr:
             continue
-        addresses.append([attr['givenName'][0],attr['sn'][0],attr['mail'][0]])
+        if 'mail' in attr:
+            addresses.append([attr['givenName'][0],attr['sn'][0],attr['mail'][0]])
         birthday = date(today.year, int(attr['birthmonth'][0]), int(attr['birthday'][0]))
         delta = today - birthday
         if delta.days == -1:
