@@ -69,12 +69,15 @@ def mail(addr, person, config, dry_run):
 def get_all_birthdays():
     c = init_ldap(config);
     today = date.today()
-    c.search(search_base=LDAP_USER_SCOPE, search_filter='(objectClass=d120Person)', search_scope=SEARCH_SCOPE_WHOLE_SUBTREE, attributes=['givenName', 'sn', 'mail', 'birthday', 'birthmonth'])
+    c.search(search_base=LDAP_USER_SCOPE, search_filter='(objectClass=d120Person)', search_scope=SEARCH_SCOPE_WHOLE_SUBTREE, attributes=['givenName', 'sn', 'mail', 'birthday', 'birthmonth', 'birthyear'])
     birthdays = []
     for l in c.response:
         attr = l['attributes']
         if not 'birthday' in attr or not 'birthmonth' in attr:
             continue
+        dob = None
+        if 'birthyear' in attr:
+            dob = date(int(attr['birthyear'][0]), int(attr['birthmonth'][0]), int(attr['birthday'][0]))
         birthday = date(today.year, int(attr['birthmonth'][0]), int(attr['birthday'][0]))
         delta = birthday - today
         if delta.days < 0:
@@ -82,7 +85,7 @@ def get_all_birthdays():
             delta = birthday - today
         if not 'mail' in attr: attr['mail'] = ['']
         birthdays.append({ 'name': attr['givenName'][0], 'sn': attr['sn'][0], 'mail': attr['mail'][0],
-             'birthday': birthday, 'delta': delta.days })
+            'birthday': birthday, 'delta': delta.days, 'dob': dob })
     birthdays.sort(key=lambda info: info['delta'])
     return birthdays
 
@@ -145,8 +148,6 @@ if __name__ == "__main__":
             elif style == 'html':
                 print('<table>')
                 for b in lst:
-                    print('<tr><td>%02d.%02d.</td><td>%20s %-30s</td><td>in %d days</td></tr>' % (b['birthday'].day, b['birthday'].month, b['name'], b['sn'], b['delta']))
+                    age = (date.today()-b['dob']).days/365.0 if b['dob']!=None else 0
+                    print('<tr><td>%02d.%02d.</td><td>%20s %-30s</td><td>in %d days</td><td>%0.02f</td></tr>' % (b['birthday'].day, b['birthday'].month, b['name'], b['sn'], b['delta'], age))
                 print('</table>')
-
-
-
