@@ -57,7 +57,7 @@ def mail(addr, person, config, dry_run):
         msg = EmailMessage()
         msg['Subject'] = config['mail']['subject']
         msg['From'] = config['mail']['from']
-        msg['Date'] = formatdate()
+        msg['Date'] = formatdate(localtime=True)
         msg['To'] = Address(address[0] + " " + address[1] , addr_spec=address[2])
         msg.set_content(tmp)
         if dry_run:
