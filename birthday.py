@@ -22,7 +22,7 @@ from email.headerregistry import Address
 import getopt
 import json
 
-from ldap3 import Server, Connection, ALL_ATTRIBUTES, SEARCH_SCOPE_WHOLE_SUBTREE
+from ldap3 import Server, Connection, ALL_ATTRIBUTES, SUBTREE
 
 config = ConfigParser()
 config.read('config')
@@ -69,14 +69,14 @@ def mail(addr, person, config, dry_run):
 def get_all_birthdays():
     c = init_ldap(config);
     today = date.today()
-    c.search(search_base=LDAP_USER_SCOPE, search_filter='(objectClass=d120Person)', search_scope=SEARCH_SCOPE_WHOLE_SUBTREE, attributes=['givenName', 'sn', 'mail', 'birthday', 'birthmonth', 'birthyear'])
+    c.search(search_base=LDAP_USER_SCOPE, search_filter='(objectClass=d120Person)', search_scope=SUBTREE, attributes=['givenName', 'sn', 'mail', 'birthday', 'birthmonth', 'birthyear'])
     birthdays = []
     for l in c.response:
         attr = l['attributes']
-        if not 'birthday' in attr or not 'birthmonth' in attr:
+        if len(attr['birthday']) == 0 or len(attr['birthmonth']) == 0:
             continue
         dob = None
-        if 'birthyear' in attr:
+        if len(attr['birthyear']) == 1:
             dob = date(int(attr['birthyear'][0]), int(attr['birthmonth'][0]), int(attr['birthday'][0]))
         birthday = date(today.year, int(attr['birthmonth'][0]), int(attr['birthday'][0]))
         delta = birthday - today
@@ -92,7 +92,7 @@ def get_all_birthdays():
 def get_birthdays():
     c = init_ldap(config);
     today = date.today()
-    c.search(search_base=LDAP_USER_SCOPE, search_filter='(objectClass=d120Person)', search_scope=SEARCH_SCOPE_WHOLE_SUBTREE, attributes=['givenName', 'sn', 'mail', 'birthday', 'birthmonth'])
+    c.search(search_base=LDAP_USER_SCOPE, search_filter='(objectClass=d120Person)', search_scope=SUBTREE, attributes=['givenName', 'sn', 'mail', 'birthday', 'birthmonth'])
     addresses = []
     birthdays = []
     for l in c.response:
