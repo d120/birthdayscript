@@ -97,7 +97,7 @@ def get_birthdays():
     birthdays = []
     for l in c.response:
         attr = l['attributes']
-        if not 'birthday' in attr or not 'birthmonth' in attr:
+        if len(attr['birthday']) == 0 or len(attr['birthmonth']) == 0:
             continue
         if 'mail' in attr:
             addresses.append([attr['givenName'][0],attr['sn'][0],attr['mail'][0]])
