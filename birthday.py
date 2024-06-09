@@ -13,6 +13,7 @@
 #   limitations under the License.
 import re
 import smtplib
+import calendar
 from datetime import datetime, date, timedelta
 from sys import argv, exit
 from email.message import EmailMessage
@@ -147,7 +148,8 @@ if __name__ == "__main__":
                     print('%02d.%02d. %20s %-30s %-42s' % (b['birthday'].day, b['birthday'].month, b['name'], b['sn'], b['mail']))
             elif style == 'html':
                 print('<table>')
+                days_in_year = 366.0 if calendar.isleap(date.today().year) else 365.0
                 for b in lst:
-                    age = (date.today()-b['dob']).days/365.0 if b['dob']!=None else 0
+                    age = (date.today()-b['dob']).days/days_in_year if b['dob']!=None else 0
                     print('<tr><td>%02d.%02d.</td><td>%20s %-30s</td><td>in %d days</td><td>%0.02f</td></tr>' % (b['birthday'].day, b['birthday'].month, b['name'], b['sn'], b['delta'], age))
                 print('</table>')
