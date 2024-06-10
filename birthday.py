@@ -149,6 +149,6 @@ if __name__ == "__main__":
             elif style == 'html':
                 print('<table>')
                 for b in lst:
-                    age = relativedelta(date.today()-b['dob']).years if b['dob']!=None else 0
+                    age = relativedelta(date.today(), b['dob']).years if b['dob']!=None else 0
                     print('<tr><td>%02d.%02d.</td><td>%20s %-30s</td><td>in %d days</td><td>%0.02f</td></tr>' % (b['birthday'].day, b['birthday'].month, b['name'], b['sn'], b['delta'], age))
                 print('</table>')
