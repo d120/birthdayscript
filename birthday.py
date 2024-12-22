@@ -149,6 +149,13 @@ if __name__ == "__main__":
             elif style == 'html':
                 print('<table>')
                 for b in lst:
-                    age = relativedelta(date.today(), b['dob']).years if b['dob']!=None else 0
+                    if b['dob'] != None:
+                        next_bd = b['birthday']
+                        last_bd = date(next_bd.year-1, next_bd.month, next_bd.day)
+                        delta_year = next_bd - last_bd
+                        delta_bd = b['delta']
+                        age = relativedelta(date.today(), b['dob']).years + delta_bd.days / float(delta_year.days)
+                    else:
+                        age = 0
                     print('<tr><td>%02d.%02d.</td><td>%20s %-30s</td><td>in %d days</td><td>%0.02f</td></tr>' % (b['birthday'].day, b['birthday'].month, b['name'], b['sn'], b['delta'], age))
                 print('</table>')
